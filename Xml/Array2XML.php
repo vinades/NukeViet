@@ -8,6 +8,8 @@
  * @Createdate 6/5/2010 2:18
  */
 
+namespace NukeViet;
+
 class Array2XML
 {
     private $rootname_default = 'root';
