@@ -7,7 +7,7 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate 3/27/2010 0:30
  */
-namespace NukeViet\Client;
+namespace NukeViet\Core;
 
 class FloodBlocker
 {
