@@ -1,0 +1,20 @@
+{
+    "name": "nukeviet/class",
+    "version": "4.0.0",
+    "type": "project",
+    "description": "class for NukeViet 4",
+    "keywords": ["cms","nukeviet", "nukeviet4"],
+    "homepage": "https://github.com/nukeviet/nukeviet",
+	"license": "GPL-2.0+",    
+    "authors": [
+        {
+            "name": "VINADES.,JSC",
+            "email": "contact@vinades.vn",
+            "homepage": "http://vinades.vn",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+}
