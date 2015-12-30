@@ -1,5 +1,5 @@
 {
-    "name": "nukeviet/class",
+    "name": "vinades/nukeviet",
     "version": "4.0.0",
     "type": "project",
     "description": "class for NukeViet 4",
@@ -16,5 +16,5 @@
     ],
     "require": {
         "php": ">=5.4.0"
-    },
+    }
 }
