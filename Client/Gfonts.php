@@ -8,7 +8,7 @@
  * @Createdate 30/07/2015 10:00
  */
 
-namespace NukeViet\Http;
+namespace NukeViet\Client;
 
 class Gfonts
 {
@@ -21,17 +21,17 @@ class Gfonts
     {
         $this->cssdir = NV_ASSETS_DIR . '/css';
         $this->fontdir = NV_ASSETS_DIR . '/fonts';
-        $this->fontsLang = ! empty($gfonts['subset']) ? preg_replace("/[^a-z0-9\,\-]/i", "", strtolower($gfonts['subset'])) : "";
+        $this->fontsLang = ! empty($gfonts['subset']) ? preg_replace('/[^a-z0-9\,\-]/i', '', strtolower($gfonts['subset'])) : '';
         $stringFonts = $this->stringFonts($gfonts['fonts']);
-        $this->fonts = "family=" . $stringFonts;
-        $stringFonts = str_replace(":", ".", $stringFonts);
+        $this->fonts = 'family=' . $stringFonts;
+        $stringFonts = str_replace(':', '.', $stringFonts);
         if (! empty($this->fontsLang)) {
-            $this->fonts .= "&subset=" . $this->fontsLang;
+            $this->fonts .= '&subset=' . $this->fontsLang;
             $stringFonts .= '.' . $this->fontsLang;
         }
-        $this->fonts = "http://fonts.googleapis.com/css?" . $this->fonts;
-        $stringFonts = preg_replace("/[^a-z0-9\.]/i", "", $stringFonts);
-        $cssFile = strtolower($stringFonts . "." . $client_info['browser']['key'] . $client_info['browser']['version']) . '.css';
+        $this->fonts = 'http://fonts.googleapis.com/css?' . $this->fonts;
+        $stringFonts = preg_replace('/[^a-z0-9\.]/i', '', $stringFonts);
+        $cssFile = strtolower($stringFonts . '.' . $client_info['browser']['key'] . $client_info['browser']['version']) . '.css';
         $this->cssRealFile = NV_ROOTDIR . '/' . $this->cssdir . '/' . $cssFile;
         $this->cssUrlFile = NV_BASE_SITEURL . $this->cssdir . '/' . $cssFile;
     }
@@ -71,7 +71,7 @@ class Gfonts
         curl_setopt($curlHandle, CURLOPT_MAXREDIRS, 10);
         curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
 
-        if (($fp = fopen($dir . '/' . $filename, "wb")) === false) {
+        if (($fp = fopen($dir . '/' . $filename, 'wb')) === false) {
             curl_close($curlHandle);
             return false;
         }
@@ -114,7 +114,7 @@ class Gfonts
         curl_setopt($curlHandle, CURLOPT_MAXREDIRS, 10);
         curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
         $result = curl_exec($curlHandle);
-        if (curl_errno($curlHandle) == 23 || curl_errno($curlHandle) == 61) {
+        if (curl_errno($curlHandle) == 23 or curl_errno($curlHandle) == 61) {
             curl_setopt($curlHandle, CURLOPT_ENCODING, 'none');
             $result = curl_exec($curlHandle);
         }
@@ -124,7 +124,7 @@ class Gfonts
             return '';
         }
 
-        $Regex = "/http\:\/\/[^\) ]+\/([^\.\) ]+\.[^\) ]+)/";
+        $Regex = '/http\:\/\/[^\) ]+\/([^\.\) ]+\.[^\) ]+)/';
 
         if (preg_match_all($Regex, $result, $matches)) {
             $result = preg_replace_callback($Regex, array( $this, 'download_Callback' ), $result);
@@ -143,11 +143,11 @@ class Gfonts
         $_fonts = array();
         foreach ($fonts as $k => $font) {
             $_fonts[$k] = urlencode($font['family']);
-            if (isset($font['styles']) && ! empty($font['styles'])) {
+            if (isset($font['styles']) and ! empty($font['styles'])) {
                 $_fonts[$k] .= ':' . $font['styles'];
             }
         }
 
-        return implode($_fonts, "|");
+        return implode($_fonts, '|');
     }
 }

@@ -49,7 +49,6 @@ class Curl
     public $error = array();
 
     /**
-     * NV_http_curl::request()
      *
      * @param mixed $url
      * @param mixed $args
@@ -68,7 +67,7 @@ class Curl
             'cookies' => array()
         );
 
-        $args = NV_Http::build_args($args, $defaults);
+        $args = Http::build_args($args, $defaults);
 
         // Get User Agent
         if (isset($args['headers']['User-Agent'])) {
@@ -89,14 +88,14 @@ class Curl
         }
 
         // Construct Cookie: header if any cookies are set.
-        NV_Http::buildCookieHeader($args);
+        Http::buildCookieHeader($args);
 
         $handle = curl_init();
 
         /*
         // No Proxy setting so proxy be omitted
         // cURL offers really easy proxy support.
-        $proxy = new NV_http_proxy();
+        $proxy = new Http_proxy();
 
         if( $proxy->is_enabled() and $proxy->send_through_proxy( $url ) )
         {
@@ -182,7 +181,7 @@ class Curl
             $this->stream_handle = @fopen($args['filename'], 'w+');
 
             if (! $this->stream_handle) {
-                NV_Http::set_error(10);
+                Http::set_error(10);
                 return $this;
             }
         } else {
@@ -212,14 +211,14 @@ class Curl
             if ($curl_error = curl_error($handle)) {
                 curl_close($handle);
 
-                NV_Http::set_error(11);
+                Http::set_error(11);
                 return $this;
             }
 
             if (in_array(curl_getinfo($handle, CURLINFO_HTTP_CODE), array( 301, 302 ))) {
                 curl_close($handle);
 
-                NV_Http::set_error(5);
+                Http::set_error(5);
                 return $this;
             }
 
@@ -228,7 +227,7 @@ class Curl
         }
 
         $theResponse = curl_exec($handle);
-        $theHeaders = NV_Http::processHeaders($this->headers, $url);
+        $theHeaders = Http::processHeaders($this->headers, $url);
         $theBody = $this->body;
 
         $this->headers = '';
@@ -241,21 +240,21 @@ class Curl
             if (CURLE_WRITE_ERROR /* 23 */ == $curl_error and $args['stream']) {
                 fclose($this->stream_handle);
 
-                NV_Http::set_error(9);
+                Http::set_error(9);
                 return $this;
             }
 
             if ($curl_error = curl_error($handle)) {
                 curl_close($handle);
 
-                NV_Http::set_error(11);
+                Http::set_error(11);
                 return $this;
             }
 
             if (in_array(curl_getinfo($handle, CURLINFO_HTTP_CODE), array( 301, 302 ))) {
                 curl_close($handle);
 
-                NV_Http::set_error(5);
+                Http::set_error(5);
                 return $this;
             }
         }
@@ -279,12 +278,12 @@ class Curl
         );
 
         // Handle redirects
-        if (($redirect_response = NV_Http::handle_redirects($url, $args, $response)) !== false) {
+        if (($redirect_response = Http::handle_redirects($url, $args, $response)) !== false) {
             return $redirect_response;
         }
 
-        if ($args['decompress'] === true and NV_http_encoding::should_decode($theHeaders['headers']) === true) {
-            $theBody = NV_http_encoding::decompress($theBody);
+        if ($args['decompress'] === true and Encoding::should_decode($theHeaders['headers']) === true) {
+            $theBody = Encoding::decompress($theBody);
         }
 
         $response['body'] = str_replace("\xEF\xBB\xBF", "", $theBody);
@@ -293,7 +292,6 @@ class Curl
     }
 
     /**
-     * NV_http_curl::stream_headers()
      *
      * @param mixed $handle
      * @param mixed $headers
@@ -306,7 +304,6 @@ class Curl
     }
 
     /**
-     * NV_http_curl::stream_body()
      *
      * @param mixed $handle
      * @param mixed $data
@@ -331,7 +328,6 @@ class Curl
     }
 
     /**
-     * NV_http_curl::test()
      *
      * @param mixed $args
      * @return
