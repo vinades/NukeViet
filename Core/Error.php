@@ -28,7 +28,7 @@ class Error
     const INCORRECT_IP = 'Incorrect IP address specified';
     const LOG_FILE_NAME_DEFAULT = 'error_log'; //ten file log
     const LOG_FILE_EXT_DEFAULT = 'log'; //duoi file log
-    
+
     private $log_errors_list;
     private $site_logo = 'assets/images/logo.png';
     private $display_errors_list;
@@ -268,7 +268,7 @@ class Error
 
     /**
      * Error::get_request()
-     * 
+     *
      * @return
      */
     public function get_request()
@@ -293,7 +293,7 @@ class Error
 
     /**
      * Error::fixQuery()
-     * 
+     *
      * @param mixed $key
      * @param mixed $value
      * @return
@@ -322,7 +322,7 @@ class Error
 
     /**
      * Error::info_die()
-     * 
+     *
      * @return void
      */
     private function info_die()
@@ -381,7 +381,7 @@ class Error
 
     /**
      * Error::_log()
-     * 
+     *
      * @return void
      */
     private function _log()
@@ -407,7 +407,7 @@ class Error
 
     /**
      * Error::_send()
-     * 
+     *
      * @return void
      */
     private function _send()
@@ -436,13 +436,13 @@ class Error
 
     /**
      * Error::_display()
-     * 
+     *
      * @return void
      */
     private function _display()
     {
         global $error_info;
-        
+
         $display = true;
         foreach ($this->error_excluded as $pattern) {
             if (preg_match($pattern, $this->errstr)) {
@@ -450,7 +450,7 @@ class Error
                 break;
             }
         }
-        
+
         if ($display) {
             $info = $this->errstr;
             if ($this->errno != E_USER_ERROR and $this->errno != E_USER_WARNING and $this->errno != E_USER_NOTICE) {
@@ -461,7 +461,7 @@ class Error
                     $info .= ' on line ' . $this->errline;
                 }
             }
-    
+
             $error_info[] = array('errno' => $this->errno, 'info' => $info);
         }
     }
@@ -479,16 +479,16 @@ class Error
     {
         $this->errno = $errno;
         $this->errstr = $errstr;
-        
+
         if (!empty($errfile)) {
             $this->errfile = str_replace(NV_ROOTDIR, '', str_replace('\\', '/', $errfile));
         }
         if (!empty($errline)) {
             $this->errline = $errline;
         }
-        
+
         $this->log_control();
-        
+
         if ($this->errno == 256) {
             $this->info_die();
         }
@@ -496,7 +496,7 @@ class Error
 
     /**
      * Error::shutdown()
-     * 
+     *
      * @return void
      */
     public function shutdown()
@@ -526,9 +526,9 @@ class Error
                     break;
                 }
             }
-            
+
             $this->log_control();
-            
+
             // Only display some track fatal error!
             if ($finded_track) {
                 $this->info_die();
@@ -540,7 +540,7 @@ class Error
 
     /**
      * Error::fix_path()
-     * 
+     *
      * @param mixed $path
      * @return
      */
@@ -551,7 +551,7 @@ class Error
 
     /**
      * Error::get_fixed_path()
-     * 
+     *
      * @param mixed $realpath
      * @return
      */
@@ -562,7 +562,7 @@ class Error
 
     /**
      * Error::log_control()
-     * 
+     *
      * @return void
      */
     private function log_control()
@@ -571,7 +571,7 @@ class Error
         $track_errors = $this->error_log_tmp . '/' . $track_errors . '.' . $this->error_log_fileext;
 
         if ($this->error_set_logs and !file_exists($track_errors)) {
-            //file_put_contents($track_errors, '', FILE_APPEND);
+            file_put_contents($track_errors, '', FILE_APPEND);
 
             if (!empty($this->log_errors_list) and isset($this->log_errors_list[$this->errno])) {
                 $this->_log();
